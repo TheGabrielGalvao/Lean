@@ -1,0 +1,38 @@
+.public-layout{
+    display: flex;
+}
+
+.public-layout .image{
+    background: var(--overlay);
+    background-size: cover;
+    flex: 3;
+}
+
+.public-layout .container{
+    height: 100vh;
+    display: flex;
+    padding: 3rem 2rem;
+    flex: 1;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background: var(--white);
+}
+
+.private-layout{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 5rem;
+    margin: 10vh auto;
+    flex-wrap: wrap;
+    max-width: 90vw;
+    min-height: 80vh;
+    background: var(--background);
+    border-radius: var(--radius);
+    box-shadow: 1px 1px 5px var(--title);
+    flex-direction: column;
+}
+
+.private-layout div{
+    align-items: center;
+}

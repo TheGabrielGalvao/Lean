@@ -1,0 +1,21 @@
+.cadastro{
+    display: flex;
+    margin: 0 auto;
+    flex-direction: column;
+}
+form {
+    padding-top: 1rem;
+    flex: 1;
+}
+
+form .input{
+    margin-bottom: 2rem;
+    flex: 1;
+    border-radius: var(--radius);
+}
+
+.button-group{
+    display: flex;
+    flex: 1;
+    justify-content: space-around;
+}

@@ -1,0 +1,53 @@
+button{
+    padding: 0.3rem 3rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border: none;
+    transition: all 0.5s;
+    border-radius: 20rem
+}
+
+button:hover{
+    opacity: 0.5;
+}
+
+button:disabled{
+    background: none;
+    color: var(--text);
+}
+
+.btn-default{
+    background: none;
+    color: var(--text); 
+}
+
+.btn-primary{
+    background: var(--blue);
+    color: var(--white);
+}
+
+.btn-success{
+    background: var(--green);
+    color: var(--white);
+}
+
+.btn-block{
+    flex: 1;
+    font-weight: 500;
+    font-size: 1.5em;    
+}
+
+
+.btn-float{
+	position:fixed;
+	width:4rem;
+	height:4rem;
+	bottom:15%;
+	right:8%;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+    font-weight: bold;
+    padding: 2rem;
+}

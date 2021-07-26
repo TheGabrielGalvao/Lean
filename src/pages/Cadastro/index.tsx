@@ -73,10 +73,6 @@ const Cadastro: React.FC<Props & InjectedFormProps<{}, Props>> = ({ handleSubmit
         }
     }
 
-    // const filter = (user: any) => {
-    //     return (x.nome === formState?.nome && x.email === formState?.email && x.cpf === formState?.cpf && x.telefone === formState?.telefone)
-    // }
-
 
     return (
         <div className="cadastro">

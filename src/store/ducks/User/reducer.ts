@@ -9,11 +9,12 @@ const INITIAL_STATE: IUserState = {
 }
 
 export const userReducer: Reducer<IUserState> = (state = INITIAL_STATE, action) => {
+    console.log(action.type)
     switch (action.type) {
         case EUserActions.LOAD_REQUEST:
-            return { ...state, loading: true, tmp: INITIAL_STATE.tmp }
+            return { ...state, loading: true }
         case EUserActions.LOAD_SUCCESS:
-            return { ...state, loading: false, error: false, data: action.data }
+            return { ...state, loading: false, error: false, data: action.data, tmp: INITIAL_STATE.tmp }
         case EUserActions.LOAD_FAILURE:
             return { ...state, loading: false, error: true, data: [], }
 

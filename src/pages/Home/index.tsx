@@ -24,7 +24,7 @@ const Home: React.FC<Props> = ({ data, isAuthenticated, loadRequest, editRequest
             history.push("/cadastro")
         }
         loadRequest()
-    })
+    }, [])
 
     return (
         <div className="home">

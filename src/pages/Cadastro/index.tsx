@@ -60,7 +60,7 @@ const Cadastro: React.FC<Props & InjectedFormProps<{}, Props>> = ({ handleSubmit
 
     const handleChange = () => {
         if (formState?.nome && formState?.email && formState?.cpf && formState?.telefone && !isAuthenticated) {
-            const usr = users.find(x => x.nome == formState?.nome && x.email == formState?.email && x.cpf == formState?.cpf && x.telefone == formState?.telefone)
+            const usr = users.find(x => x.nome === formState?.nome && x.email === formState?.email && x.cpf === formState?.cpf && x.telefone === formState?.telefone)
 
             if (usr) {
                 setUser(usr)

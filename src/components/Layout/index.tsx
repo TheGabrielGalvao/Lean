@@ -24,6 +24,8 @@ const Layout: React.FC<Props> = ({ children, isAuthenticated, user, logoutReques
 
     const handleDelete = () => {
         logoutRequest()
+
+        history.push("/cadastro")
     };
 
     if (isAuthenticated) {

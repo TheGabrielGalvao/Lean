@@ -5,10 +5,12 @@ import rootReducer from './rootReducer'
 import rootSaga from './rootSaga'
 import { IUserState } from './ducks/User/types'
 import { IAuthState } from './ducks/Auth/types'
+import { FormStateMap } from 'redux-form'
 
 export interface ApplicationState {
     user: IUserState
     auth: IAuthState
+    form: FormStateMap
 }
 
 const sagaMiddleware = createSagaMiddleware()

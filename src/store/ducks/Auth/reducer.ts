@@ -3,7 +3,8 @@ import { EAuthActions, IAuthState } from "./types"
 
 
 const INITIAL_STATE: IAuthState = {
-    isAuthenticated: (sessionStorage.getItem("user") ? true : false),
+    isAuthenticated: JSON.parse(sessionStorage.getItem("isAuthenticated") || "false"),
+    data: JSON.parse(sessionStorage.getItem("user") || "[]"),
     loading: false,
     error: false
 }

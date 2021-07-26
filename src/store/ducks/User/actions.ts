@@ -13,10 +13,11 @@ export const loadSuccess = (data: IUser[]) => {
 export const loadFailure = () => action(EUserActions.LOAD_FAILURE)
 
 
-export const saveRequest = (data: IUser) => {
+export const saveRequest = (data: IUser, isAuthenticated: boolean) => {
     return {
         type: EUserActions.SAVE_REQUEST,
-        data: data
+        data: data,
+        isAuthenticated: isAuthenticated
     }
 }
 

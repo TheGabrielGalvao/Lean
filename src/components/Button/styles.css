@@ -51,3 +51,10 @@ button:disabled{
     font-weight: bold;
     padding: 2rem;
 }
+
+@media (max-width:600px){
+ .btn-float{
+    bottom:15%;
+	right:15%;
+ }   
+}

@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
@@ -32,6 +31,7 @@ const Home: React.FC<Props> = ({ data, isAuthenticated, loadRequest, editRequest
             <h1>Usuários</h1>
 
             <CustomTable editRequest={editRequest} removeRequest={removeRequest} data={data} />
+
         </div>
     )
 }

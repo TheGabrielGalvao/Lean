@@ -15,6 +15,7 @@ export const loginSuccess = (data: IUser) => {
     return {
         type: EAuthActions.LOGIN_SUCCESS,
         data: data,
+        isAuthenticated: true
     }
 }
 

@@ -14,3 +14,4 @@ export const validate = (client: IUser) => {
 
     return errors
 }
+

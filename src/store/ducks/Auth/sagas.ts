@@ -6,6 +6,7 @@ export function* login(action?: any) {
         if (action.data) {
 
             sessionStorage.setItem("user", JSON.stringify(action.data))
+            sessionStorage.setItem("isAuthenticated", JSON.stringify(true))
 
             yield put(AuthActions.loginSuccess(action.data))
 
@@ -18,10 +19,8 @@ export function* login(action?: any) {
 
 export function* logout(action?: any) {
     try {
-        if (action.data) {
-            sessionStorage.clear()
-            yield put(AuthActions.logoutSuccess())
-        }
+        sessionStorage.clear()
+        yield put(AuthActions.logoutSuccess())
     }
     catch (ex) {
         yield put(AuthActions.logoutFailure())

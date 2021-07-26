@@ -11,7 +11,7 @@ const INITIAL_STATE: IUserState = {
 export const userReducer: Reducer<IUserState> = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case EUserActions.LOAD_REQUEST:
-            return { ...state, loading: true }
+            return { ...state, loading: true, tmp: INITIAL_STATE.tmp }
         case EUserActions.LOAD_SUCCESS:
             return { ...state, loading: false, error: false, data: action.data }
         case EUserActions.LOAD_FAILURE:

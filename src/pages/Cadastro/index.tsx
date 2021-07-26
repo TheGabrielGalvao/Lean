@@ -2,28 +2,42 @@ import { useState } from "react"
 import { connect } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { bindActionCreators, Dispatch } from "redux"
-import { Field, FormErrors, InjectedFormProps, reduxForm } from "redux-form"
+import { Field, FormErrors, formValueSelector, InjectedFormProps, reduxForm } from "redux-form"
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import { Button, ReduxFormInput } from "../../components"
 import { ApplicationState } from "../../store"
 import { IUser } from "../../store/ducks/User/types"
-import * as UserActions from '../../store/ducks/User/actions'
+import { saveRequest } from '../../store/ducks/User/actions'
+import { loginRequest } from '../../store/ducks/Auth/actions'
 
 import './styles.css'
 import { validate } from "./validate"
 
 interface Props {
-    user?: IUser
+    users: IUser[]
+    formState?: IUser
     isAuthenticated: boolean
-    saveRequest(user: IUser): void
+    saveRequest(user: IUser, isAuthenticated: boolean): void
+    loginRequest(user: IUser): void
 }
 
-const Cadastro: React.FC<Props & InjectedFormProps<{}, Props>> = ({ handleSubmit, saveRequest, isAuthenticated, user }) => {
+enum ESubmitMode {
+    CADASTRO = "Cadastro",
+    LOGIN = "Login"
+}
+
+const Cadastro: React.FC<Props & InjectedFormProps<{}, Props>> = ({ handleSubmit, saveRequest, loginRequest, isAuthenticated, formState, users }) => {
     const [validation, setValidation] = useState<FormErrors<IUser>>({})
+    const [submitMode, setSubmitMode] = useState<ESubmitMode>(ESubmitMode.CADASTRO)
+    const [user, setUser] = useState<IUser>({
+        id: 0,
+        nome: "",
+        email: "",
+        cpf: "",
+        telefone: ""
+    })
 
     const history = useHistory()
-
-    // console.log(user)
 
     const submit = (data: any) => {
         if (data != null && data !== {} && data !== "") {
@@ -33,15 +47,40 @@ const Cadastro: React.FC<Props & InjectedFormProps<{}, Props>> = ({ handleSubmit
                 setValidation(errors)
             }
             else {
-                saveRequest(data)
+                if (submitMode === ESubmitMode.CADASTRO) {
+                    saveRequest(data, isAuthenticated)
+                }
+                if (submitMode === ESubmitMode.LOGIN) {
+                    loginRequest(user)
+                }
                 history.push("/")
             }
         }
     }
 
+    const handleChange = () => {
+        if (formState?.nome && formState?.email && formState?.cpf && formState?.telefone && !isAuthenticated) {
+            const usr = users.find(x => x.nome == formState?.nome && x.email == formState?.email && x.cpf == formState?.cpf && x.telefone == formState?.telefone)
+
+            if (usr) {
+                setUser(usr)
+                setSubmitMode(ESubmitMode.LOGIN)
+            }
+
+            if (!usr) {
+                setSubmitMode(ESubmitMode.CADASTRO)
+            }
+        }
+    }
+
+    // const filter = (user: any) => {
+    //     return (x.nome === formState?.nome && x.email === formState?.email && x.cpf === formState?.cpf && x.telefone === formState?.telefone)
+    // }
+
+
     return (
         <div className="cadastro">
-            <h1>Lean Cadastro</h1>
+            <h1>{`Lean ${submitMode}`}</h1>
 
             <form onSubmit={handleSubmit((fields: any) => submit(fields))} noValidate autoComplete="off">
                 <Field
@@ -54,6 +93,7 @@ const Cadastro: React.FC<Props & InjectedFormProps<{}, Props>> = ({ handleSubmit
                     placeholder="Nome Completo"
                     component={ReduxFormInput}
                     message={validation?.nome}
+                    onChange={handleChange}
                 />
                 <Field
                     className="input"
@@ -65,6 +105,7 @@ const Cadastro: React.FC<Props & InjectedFormProps<{}, Props>> = ({ handleSubmit
                     placeholder="Email"
                     component={ReduxFormInput}
                     message={validation?.email}
+                    onChange={handleChange}
                 />
                 <Field
                     className="input"
@@ -76,6 +117,7 @@ const Cadastro: React.FC<Props & InjectedFormProps<{}, Props>> = ({ handleSubmit
                     placeholder="CPF"
                     component={ReduxFormInput}
                     message={validation?.cpf}
+                    onChange={handleChange}
                 />
                 <Field
                     className="input"
@@ -87,10 +129,11 @@ const Cadastro: React.FC<Props & InjectedFormProps<{}, Props>> = ({ handleSubmit
                     placeholder="Telefone"
                     component={ReduxFormInput}
                     message={validation?.telefone}
+                    onChange={handleChange}
                 />
                 <div className="button-group">
-                    <Button className="btn-primary">{(isAuthenticated) ? "Salvar" : "Cadastrar"}</Button>
-                    {(!isAuthenticated) && (<Button className="btn-primary" disabled>Login <ArrowRightAltIcon /> </Button>)}
+                    <Button className="btn-primary" disabled={(submitMode === ESubmitMode.LOGIN)}>{(isAuthenticated) ? "Salvar" : "Cadastrar"}</Button>
+                    {(!isAuthenticated) && (<Button className="btn-primary" disabled={(submitMode === ESubmitMode.CADASTRO)}>Login <ArrowRightAltIcon /> </Button>)}
                 </div>
             </form>
         </div>
@@ -103,14 +146,21 @@ const form = reduxForm<{}, Props>({
     destroyOnUnmount: true,
 })(Cadastro)
 
+const selector = formValueSelector('user')
 
 const mapStateToProps = (state: ApplicationState) => ({
+    users: state.user.data,
     initialValues: state.user.tmp,
     isAuthenticated: state.auth.isAuthenticated,
-    user: state.user.tmp
+    formState: {
+        nome: selector(state, 'nome'),
+        email: selector(state, 'email'),
+        cpf: selector(state, 'cpf'),
+        telefone: selector(state, 'telefone'),
+    }
 })
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(UserActions, dispatch)
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({ saveRequest, loginRequest }, dispatch)
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(form)

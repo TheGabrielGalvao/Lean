@@ -20,7 +20,7 @@ export function* save(action?: any) {
         const users: IUser[] = (action.data.id > 0) ? JSON.parse(localStorage.getItem("users") || '[]').filter((x: IUser) => x.id !== action.data.id) : JSON.parse(localStorage.getItem("users") || '[]')
 
         const user: IUser = {
-            id: { ...action.data.id || users.length + 1 },
+            id: action.data.id || users.length + 1,
             ...action.data
         }
 
@@ -29,7 +29,10 @@ export function* save(action?: any) {
         localStorage.setItem('users', JSON.stringify(users))
 
         yield put(UserActions.saveSuccess(user))
-        yield put(loginRequest(user))
+
+        if (!action.isAuthenticated) {
+            yield put(loginRequest(user))
+        }
 
     }
     catch (ex) {

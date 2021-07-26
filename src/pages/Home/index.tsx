@@ -24,6 +24,8 @@ const Home: React.FC<Props> = ({ data, isAuthenticated, loadRequest, editRequest
             history.push("/cadastro")
         }
         loadRequest()
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
